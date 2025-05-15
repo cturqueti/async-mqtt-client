@@ -203,9 +203,10 @@ AsyncMqttClient& AsyncMqttClient::setServer(const char* serviceName, const char*
             _ip = MDNS.IP(0);
             _port = MDNS.port(0);
             _useIp = true;
-            return *this;
+            
         }
     }
+    return *this;
 }
 
 #if ASYNC_TCP_SSL_ENABLED
