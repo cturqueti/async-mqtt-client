@@ -194,21 +194,6 @@ AsyncMqttClient& AsyncMqttClient::setServer(const char* host, uint16_t port) {
     return *this;
 }
 
-AsyncMqttClient& AsyncMqttClient::setServer(const char* serviceName, const char* protocol) {
-    _serviceName = serviceName;
-    _protocol = protocol;
-    if (MDNS.begin(_hostName)) {  // Nome do host do ESP32
-        int n = MDNS.queryService(_serviceName, _protocol);
-        if (n > 0) {
-            _ip = MDNS.IP(0);
-            _port = MDNS.port(0);
-            _useIp = true;
-            
-        }
-    }
-    return *this;
-}
-
 #if ASYNC_TCP_SSL_ENABLED
 AsyncMqttClient& AsyncMqttClient::setSecure(bool secure) {
     _secure = secure;

@@ -65,7 +65,6 @@ class AsyncMqttClient {
     AsyncMqttClient& setWill(const char* topic, uint8_t qos, bool retain, const char* payload = nullptr, size_t length = 0);
     AsyncMqttClient& setServer(IPAddress ip, uint16_t port);
     AsyncMqttClient& setServer(const char* host, uint16_t port);
-    AsyncMqttClient& setServer(const char* serviceName, const char* protocol);
 
 #if ASYNC_TCP_SSL_ENABLED
     AsyncMqttClient& setSecure(bool secure);
