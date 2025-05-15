@@ -124,13 +124,15 @@ AsyncMqttClient& AsyncMqttClient::setServer(IPAddress ip, uint16_t port) {
 }
 
 AsyncMqttClient& AsyncMqttClient::setServer(const char* host, uint16_t port) {
-    _useIp = false;
-    _host = host;
+    _ip.fromString(host);
+    _useIp = true;
     _port = port;
     return *this;
 }
 
 AsyncMqttClient& AsyncMqttClient::setServer(const char* serviceName, const char* protocol) {
+    _ip.fromString("0.0.0.0");
+    _port = 1883;
     _serviceName = serviceName;
     _protocol = protocol;
     _useIp = false;  // Reset flag
