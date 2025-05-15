@@ -133,19 +133,24 @@ AsyncMqttClient& AsyncMqttClient::setServer(const char* host, uint16_t port) {
 AsyncMqttClient& AsyncMqttClient::setServer(const char* serviceName, const char* protocol) {
     _serviceName = serviceName;
     _protocol = protocol;
+    _useIp = false;  // Reset flag
 
-    // std::cout << "host name: " << hostName << std::endl;
     if (_hostName != "") {
-        if (MDNS.begin(_hostName)) {  // Nome do host do ESP32
-            int n = MDNS.queryService(_serviceName, _protocol);
-            if (n > 0) {
-                _ip = MDNS.IP(0);
-                _port = MDNS.port(0);
-                _useIp = true;
-                return *this;
-            }
+        // Inicializa mDNS se ainda não estiver ativo
+        if (!MDNS.begin(_hostName.c_str())) {
+            return *this;
+        }
+
+        // Realiza a consulta mDNS
+        int n = MDNS.queryService(_serviceName.c_str(), _protocol.c_str());
+        if (n > 0) {
+            _ip = MDNS.IP(0);
+            _port = MDNS.port(0);
+            _useIp = true;
         }
     }
+
+    return *this;  // Sempre retorne *this
 }
 
 AsyncMqttClient& AsyncMqttClient::setHostName(const char* hostName) {
